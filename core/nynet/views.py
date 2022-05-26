@@ -28,7 +28,7 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'List of products'
         context['name'] = 'products'
-        context['url'] = ""
+        context['create_url'] = reverse_lazy('nynet:create_product')
         return context
 
 
@@ -44,6 +44,7 @@ class ProductDatatableView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of products'
         context['name'] = 'products'
+        context['create_url'] = reverse_lazy('nynet:create_product')
         return context
 
 
@@ -76,6 +77,7 @@ class InvoiceDatatableView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of invoices'
         context['name'] = 'invoices'
+        context['create_url'] = reverse_lazy('nynet:create_invoice')
         return context
 
 
@@ -108,6 +110,7 @@ class InventoryDatatableView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of inventory'
         context['name'] = 'inventory'
+        context['create_url'] = reverse_lazy('nynet:create_inventory')
         return context
 
 

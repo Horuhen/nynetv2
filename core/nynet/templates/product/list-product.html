@@ -1,8 +1,6 @@
 {% extends 'list.html' %}
 {% load humanize %}
-{% block link %}
-    <a href="{% url 'nynet:create_product' %}">Click Here</a>
-{% endblock %}
+
 {% block card-image %}
     <img src="{{ object.image.url }}" alt="Image"/>
 {% endblock %}

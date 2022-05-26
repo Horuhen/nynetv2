@@ -40,3 +40,28 @@
             </div>
         </div>
 {% endblock %}
+
+{% block javascript %}
+
+
+<script type="application/javascript">
+
+    $('form').on('sumbit',funtion(e){
+
+        e.preventDefault();
+        var parameters = $(this).serializeArray();
+        $.ajax({
+            url: "{% url 'nynet:create_product' %}",
+            type: 'POST',
+            data: {},
+            dataType: 'json'
+        }).done(function(data){
+            console.log(data);
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function(data)){
+
+        }
+    });
+</script>
+{% endblock %}

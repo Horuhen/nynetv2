@@ -1,0 +1,15 @@
+{% extends 'form.html' %}
+{% block form %}
+    <div class="field">
+        <label class="label is-medium">{{ form.product.label }}</label>
+        <div class="select">
+            {{ form.product }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.stock.label }}</label>
+        <div class="control">
+            {{ form.stock }}
+        </div>
+    </div>
+{% endblock %}

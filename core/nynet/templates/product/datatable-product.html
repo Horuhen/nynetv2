@@ -1,0 +1,30 @@
+{% extends 'datatable.html' %}
+{% load humanize %}
+{% block link %}
+    <a href="{% url 'nynet:create_product' %}">Click Here</a>
+{% endblock %}
+{% block thead %}
+    <th class="has-text-white">Id</th>
+    <th class="has-text-white">Name</th>
+    <th class="has-text-white">Description</th>
+    <th class="has-text-white">Image</th>
+    <th class="has-text-white">Value</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for object in object_list %}
+        <tr>
+            <td>{{ object.id }}</td>
+            <td>{{ object.name }}</td>
+            <td>{{ object.description|truncatechars:10 }}</td>
+            <td>
+                <figure class="image is-24x24">
+                    <img src="{{ object.image.url }}" alt="Image"/>
+                </figure>
+            </td>
+            <td>$ {{ object.value | intcomma }}</td>
+
+
+        </tr>
+    {% endfor %}
+{% endblock %}

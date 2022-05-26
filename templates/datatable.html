@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
+
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+{% endblock %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title has-text-white">{{ title }}</p>
+            <p class="subtitle has-text-white">If you want to add more {{ name }} {% block link %}{% endblock %}</p>
+        </div>
+    </div>
+    <div class="container has-text-white">
+        <table id="table" class="table is-striped is-fullwidth has-text-white has-background-dark">
+            <thead>
+            <tr>
+                {% block thead %}
+
+                {% endblock %}
+            </tr>
+            </thead>
+            <tbody>
+            {% block tbody %}
+
+            {% endblock %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript" src="{% static 'js/datatable.js' %}"></script>
+{% endblock %}
+

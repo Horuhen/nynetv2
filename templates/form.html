@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+        {{ crsf_token }}
+        {% if form.errors %}
+            <div class="notification is-danger is-light">
+               <p class = "is-size-4"> <i class="fa-solid fa-triangle-exclamation"></i> Error</p>
+                <button class="delete"></button>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+
+                    {% endfor %}
+                    
+                </ul>
+            </div>
+        {% endif %}
+        {% block form %}
+
+        {% endblock %}
+        <div class="control">
+            <button type="submit" class="button is-primary">Create</button>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript" src="{% static 'js/close_notification.js' %}"></script>
+{% endblock %}

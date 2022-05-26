@@ -1,0 +1,51 @@
+.listContainer {
+    max-width: 100%;
+}
+
+.list-view {
+    flex-wrap: wrap;
+    justify-content: center;
+    display: flex;
+}
+
+.card {
+    display: flex;
+    overflow: hidden;
+    margin: 0 20px 40px;
+    min-height: 300px;
+    border-radius: 5px;
+    flex-direction: column;
+    flex: 0 1 300px;
+    padding: 0;
+    border: 0;
+
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.content {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.card:hover {
+    -webkit-box-shadow: rgba(39, 44, 49, .07) 8px 28px 50px, rgba(39, 44, 49, .04) 1px 6px 12px;
+    box-shadow: 8px 28px 50px rgba(39, 44, 49, .07), 1px 6px 12px rgba(39, 44, 49, .04);
+    -webkit-transition: all .4s ease;
+    transition: all .4s ease;
+    transform: translate3D(0, -1px, 0) scale(1.02);
+}

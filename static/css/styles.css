@@ -1,0 +1,19 @@
+body {
+    background-image: url('../img/background3.jpg');
+}
+footer {
+  color: white;
+  background: rgb(14, 14, 14) !important;
+}
+
+footer strong {
+  color: turquoise;
+}
+
+footer a {
+  color: turquoise;
+}
+
+.label {
+  color: white;
+}

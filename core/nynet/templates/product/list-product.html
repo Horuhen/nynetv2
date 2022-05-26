@@ -1,0 +1,15 @@
+{% extends 'list.html' %}
+{% load humanize %}
+{% block link %}
+    <a href="{% url 'nynet:create_product' %}">Click Here</a>
+{% endblock %}
+{% block card-image %}
+    <img src="{{ object.image.url }}" alt="Image"/>
+{% endblock %}
+{% block card-content %}
+    <a href="#">category</a>
+    <p class="title is-4">{{ object.name }}</p>
+    <p class="has-text-dark has-text-justified">{{ object.description|truncatechars:50 }}</p>
+    <p class="has-text-dark has-text-right">$ {{ object.value | intcomma}}</p>
+
+{% endblock %}

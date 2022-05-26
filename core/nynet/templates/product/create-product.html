@@ -1,0 +1,42 @@
+{% extends 'form.html' %}
+{% block form %}
+        <div class="field">
+            <label class="label is-medium">{{ form.name.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.name }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-box"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label is-medium">{{ form.description.label }}</label>
+            <div class="control">
+                {{ form.description }}
+            </div>
+        </div>
+        <div class="field">
+            <label class="label is-medium">{{ form.image.label }}</label>
+            <div class="file">
+                <label class="file-label">
+                    {{ form.image }}
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                </span>
+
+                </label>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label is-medium">{{ form.value.label }}</label>
+            <div class="control">
+                {{ form.value }}
+            </div>
+        </div>
+{% endblock %}

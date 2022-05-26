@@ -1,0 +1,23 @@
+{% extends 'datatable.html' %}
+{% block link %}
+    <a href="{% url 'nynet:create_invoice' %}">Click Here</a>
+{% endblock %}
+{% block thead %}
+    <th class="has-text-white">Id</th>
+    <th class="has-text-white"><abbr title="List of Products">LOP</abbr></th>
+    <th class="has-text-white"><abbr title="Employee">Emp</abbr></th>
+    <th class="has-text-white"><abbr title="Customer">Cus</abbr></th>
+
+{% endblock %}
+
+{% block tbody %}
+    {% for object in object_list %}
+        <tr>
+            <td>{{ object.id }}</td>
+            <td>{{ object.list_of_products }}</td>
+            <td>{{ object.employee }}</td>
+            <td>{{ object.costumer }}</td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}

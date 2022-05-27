@@ -16,52 +16,28 @@
                 {{ form.description }}
             </div>
         </div>
-        <div class="field">
-            <label class="label is-medium">{{ form.image.label }}</label>
-            <div class="file">
-                <label class="file-label">
-                    {{ form.image }}
-                    <span class="file-cta">
-                    <span class="file-icon">
-                        <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                        Choose a file…
-                    </span>
-                </span>
-
-                </label>
-            </div>
-        </div>
+{#        <div class="field">#}
+{#            <label class="label is-medium">{{ form.image.label }}</label>#}
+{#            <div class="file">#}
+{#                <label class="file-label">#}
+{#                    {{ form.image }}#}
+{#                    <span class="file-cta">#}
+{#                    <span class="file-icon">#}
+{#                        <i class="fas fa-upload"></i>#}
+{#                    </span>#}
+{#                    <span class="file-label">#}
+{#                        Choose a file…#}
+{#                    </span>#}
+{#                </span>#}
+{##}
+{#                </label>#}
+{#            </div>#}
+{#        </div>#}
+        {{ form.image }}
         <div class="field">
             <label class="label is-medium">{{ form.value.label }}</label>
             <div class="control">
                 {{ form.value }}
             </div>
         </div>
-{% endblock %}
-
-{% block javascript %}
-
-
-<script type="application/javascript">
-
-    $('form').on('sumbit',funtion(e){
-
-        e.preventDefault();
-        var parameters = $(this).serializeArray();
-        $.ajax({
-            url: "{% url 'nynet:create_product' %}",
-            type: 'POST',
-            data: {},
-            dataType: 'json'
-        }).done(function(data){
-            console.log(data);
-        }).fail(function(jqXHR, textStatus, errorThrown){
-            alert(textStatus + ': ' + errorThrown);
-        }).always(function(data)){
-
-        }
-    });
-</script>
 {% endblock %}

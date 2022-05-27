@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -54,6 +55,23 @@ class ProductCreateView(CreateView):
     template_name = 'product/create-product.html'
     success_url = reverse_lazy('nynet:product_list')
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = ProductForm(request.POST, request.FILES)
+                print(form)
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no escogio una opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
@@ -61,6 +79,10 @@ class ProductCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create products'
+        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('nynet:product_list')
+        context['create_url'] = reverse_lazy('nynet:create_product')
+
         return context
 
 
@@ -95,6 +117,7 @@ class InvoiceCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
         return context
+
 
 # Inventory
 

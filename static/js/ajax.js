@@ -1,11 +1,18 @@
-$('.btnsend').on('click',function (url_page){
+$('.form').on('submit',function (e){
+    e.preventDefault();
+    var parameters = $(this).serializeArray();
+
     $.ajax({
-        url: url_page,
+        url: '{{ create_url }}',
         type: 'POST',
-        data: {},
+        data: parameters,
         dataType: 'json'
     }).done(function (data){
-        console.log(data);
+        if(!data.hasOwnProperty('error')){
+            location.href = '{{ list_url}}';
+            return false;
+        }
+        message_error(data)
     }).fail(function (jqXHR, textStatus,errorThrown){
         alert(textStatus+': '+errorThrown);
     }).always(function (data){

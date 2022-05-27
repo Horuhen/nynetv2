@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{% endblock %}
 {% block title %}
     {{ title }}
 {% endblock %}
@@ -7,9 +12,10 @@
 {% block content %}
     <form method="post" action="." enctype="multipart/form-data">
         {{ crsf_token }}
+        <input type="hidden" name="action" value="{{ action }}">
         {% if form.errors %}
             <div class="notification is-danger is-light">
-               <p class = "is-size-4"> <i class="fa-solid fa-triangle-exclamation"></i> Error</p>
+                <p class="is-size-4"><i class="fa-solid fa-triangle-exclamation"></i> Error</p>
                 <button class="delete"></button>
                 <ul>
                     {% for field in form %}
@@ -18,7 +24,7 @@
                         {% endfor %}
 
                     {% endfor %}
-                    
+
                 </ul>
             </div>
         {% endif %}
@@ -26,9 +32,35 @@
 
         {% endblock %}
         <div class="control">
-            <button type="submit" class="button is-primary">Create</button>
+            <button type="submit" class="button is-primary" id="btnSubmit">Create</button>
         </div>
     </form>
+    <script>
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            {#var parameters = $(this).serializeArray();#}
+
+            {#console.log(parameters)#}
+            var formData = new FormData(this);
+            $.ajax({
+                url:'{% url 'nynet:create_product' %}',
+                type: 'POST',
+                data: formData,
+                {#dataType: 'json'#}
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+        });
+    </script>
 
 {% endblock %}
 

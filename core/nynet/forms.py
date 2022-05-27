@@ -21,12 +21,12 @@ class ProductForm(ModelForm):
                 }
             ),
 
-            'image': ClearableFileInput(
-                attrs={
-                    'class': 'file-input',
-                    'type': 'file',
-                }
-            ),
+            # 'image': ClearableFileInput(
+            #     attrs={
+            #         'class': 'file-input',
+            #         'type': 'file',
+            #     }
+            # ),
             'value': NumberInput(
                 attrs={
                     'class': 'input'

@@ -16,24 +16,23 @@
                 {{ form.description }}
             </div>
         </div>
-{#        <div class="field">#}
-{#            <label class="label is-medium">{{ form.image.label }}</label>#}
-{#            <div class="file">#}
-{#                <label class="file-label">#}
-{#                    {{ form.image }}#}
-{#                    <span class="file-cta">#}
-{#                    <span class="file-icon">#}
-{#                        <i class="fas fa-upload"></i>#}
-{#                    </span>#}
-{#                    <span class="file-label">#}
-{#                        Choose a file…#}
-{#                    </span>#}
-{#                </span>#}
-{##}
-{#                </label>#}
-{#            </div>#}
-{#        </div>#}
-        {{ form.image }}
+        <div class="field">
+            <label class="label is-medium">{{ form.image.label }}</label>
+            <div class="file">
+                <label class="file-label">
+                    {{ form.image }}
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                </span>
+
+                </label>
+            </div>
+        </div>
         <div class="field">
             <label class="label is-medium">{{ form.value.label }}</label>
             <div class="control">

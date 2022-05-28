@@ -10,8 +10,6 @@
 {% endblock %}
 
 {% block tbody %}
-    {% for object in object_list %}
-        <tr>
             <td>{{ object.id }}</td>
             <td>{{ object.name }}</td>
             <td>{{ object.description|truncatechars:10 }}</td>
@@ -22,7 +20,4 @@
             </td>
             <td>$ {{ object.value | intcomma }}</td>
 
-
-        </tr>
-    {% endfor %}
 {% endblock %}

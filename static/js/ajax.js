@@ -19,3 +19,29 @@ $('.form').on('submit',function (e){
 
     });
 });
+
+ $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            {#var parameters = $(this).serializeArray();#}
+
+            {#console.log(parameters)#}
+            var formData = new FormData(this);
+            $.ajax({
+                url:'{% url 'nynet:create_product' %}',
+                type: 'POST',
+                data: formData,
+                {#dataType: 'json'#}
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+
+        });

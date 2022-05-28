@@ -9,13 +9,9 @@
 {% endblock %}
 
 {% block tbody %}
-    {% for object in object_list %}
-        <tr>
-            <td>{{ object.id }}</td>
-            <td>{{ object.list_of_products }}</td>
-            <td>{{ object.employee }}</td>
-            <td>{{ object.costumer }}</td>
-        </tr>
-    {% endfor %}
+    <td>{{ object.id }}</td>
+    <td>{{ object.list_of_products }}</td>
+    <td>{{ object.employee }}</td>
+    <td>{{ object.costumer }}</td>
 
 {% endblock %}

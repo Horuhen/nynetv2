@@ -14,7 +14,8 @@
     <div class="hero-body">
         <div class="container has-text-centered">
             <p class="title has-text-white">{{ title }}</p>
-            <p class="subtitle has-text-white">If you want to add more {{ name }} <a href="{{ create_url }}">Click Here</a></p>
+            <p class="subtitle has-text-white">If you want to add more {{ name }} <a href="{{ create_url }}">Click
+                Here</a></p>
         </div>
     </div>
     <div class="container has-text-white">
@@ -24,12 +25,25 @@
                 {% block thead %}
 
                 {% endblock %}
+                <th class="has-text-white">Options</th>
             </tr>
             </thead>
             <tbody>
-            {% block tbody %}
+            {% for object in object_list %}
+            <tr>
 
-            {% endblock %}
+                {% block tbody %}
+
+                {% endblock %}
+
+                <td>
+                    <a href=" {% url 'nynet:update_product' object.id %} " class="has-text-success"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                    <a href="{% url 'nynet:delete_product' object.id %}" class="has-text-danger"><i class="fa-solid fa-trash"></i>Delete</a>
+                </td>
+
+
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

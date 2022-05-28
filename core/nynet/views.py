@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, resolve, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm
 from core.nynet.models import Product, Invoice, Inventory
 
@@ -46,6 +45,7 @@ class ProductDatatableView(ListView):
         context['title'] = 'Datatable of products'
         context['name'] = 'products'
         context['create_url'] = reverse_lazy('nynet:create_product')
+        context['update_url'] = reverse_lazy('nynet:update_product')
         return context
 
 
@@ -55,23 +55,6 @@ class ProductCreateView(CreateView):
     template_name = 'product/create-product.html'
     success_url = reverse_lazy('nynet:product_list')
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                form = ProductForm(request.POST, request.FILES)
-                print(form)
-                if form.is_valid():
-                    form.save()
-                else:
-                    data['error'] = form.errors
-            else:
-                data['error'] = 'no escogio una opcion'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
@@ -79,10 +62,35 @@ class ProductCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create products'
-        context['action'] = 'add'
-        context['list_url'] = reverse_lazy('nynet:product_list')
-        context['create_url'] = reverse_lazy('nynet:create_product')
+        return context
 
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product/create-product.html'
+    success_url = reverse_lazy('nynet:product_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update product'
+        return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'delete.html'
+    success_url = reverse_lazy('nynet:product_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete product'
+        context['name'] = 'product'
+        context['list_url'] = reverse_lazy('nynet:product_list')
         return context
 
 
@@ -100,6 +108,7 @@ class InvoiceDatatableView(ListView):
         context['title'] = 'Datatable of invoices'
         context['name'] = 'invoices'
         context['create_url'] = reverse_lazy('nynet:create_invoice')
+        context['update_url'] = 'nynet:update_invoice'
         return context
 
 
@@ -116,6 +125,22 @@ class InvoiceCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
+        return context
+
+
+class InvoiceUpdateView(UpdateView):
+    model = Invoice
+    form_class = InvoiceForm
+    template_name = 'invoice/create-invoice.html'
+    success_url = reverse_lazy('nynet:datable_invoice')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update invoice'
         return context
 
 

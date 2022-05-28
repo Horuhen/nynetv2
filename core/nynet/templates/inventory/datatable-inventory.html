@@ -8,12 +8,8 @@
 {% endblock %}
 
 {% block tbody %}
-    {% for object in object_list %}
-        <tr>
             <td>{{ object.id }}</td>
             <td>{{ object.product }}</td>
             <td>{{ object.stock }}</td>
-        </tr>
-    {% endfor %}
 
 {% endblock %}

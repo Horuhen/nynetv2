@@ -12,7 +12,8 @@
         <div class="container has-text-centered">
             <p class="title has-text-white">{{ title }}</p>
 
-            <p class="subtitle has-text-white">If you want to add more {{ name }} <a href="{{ create_url }}">Click Here</a></p>
+            <p class="subtitle has-text-white">If you want to add more {{ name }} <a href="{{ create_url }}">Click
+                Here</a></p>
         </div>
     </div>
     <div class="listContainer">
@@ -33,10 +34,8 @@
 
                             {% endblock %}
                             <div class="edit-content">
-                                <a href="#" class="has-text-success"><i
-                                        class="fa-solid fa-pen-to-square"></i>Edit</a><a href="#"
-                                                                                         class="has-text-danger is-pulled-right"><i
-                                    class="fa-solid fa-trash"></i>Delete</a>
+                                <a href="{% url 'nynet:update_product' object.id %}" class="has-text-success"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                                <a href="{% url 'nynet:delete_product' object.id %}" class="has-text-danger is-pulled-right"><i class="fa-solid fa-trash"></i>Delete</a>
                             </div>
                         </div>
                     </div>

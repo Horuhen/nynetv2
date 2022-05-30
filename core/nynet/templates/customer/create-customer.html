@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+
+        {{ crsf_token }}
+
+        <input type="hidden" name="action" value="{{ action }}">
+
+        {% if form.errors %}
+            <div class="notification is-danger is-light">
+                <p class="is-size-4"><i class="fa-solid fa-triangle-exclamation"></i> Error</p>
+                <button class="delete"></button>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+
+                    {% endfor %}
+
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="field">
+            <label class="label is-medium">{{ form.first_name.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.first_name }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label is-medium">{{ form.last_name.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.last_name }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label is-medium">{{ form.dni.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.dni }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-id-card"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label is-medium">{{ form.address.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.address }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label is-medium">{{ form.email.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.email }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label is-medium">{{ form.amount_invoices.label }}</label>
+            <div class="control has-icons-left">
+                {{ form.amount_invoices }}
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-receipt"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="control">
+            <button type="submit" class="button is-primary" id="btnSubmit">Send</button>
+
+            <a class="button is-info" href="{{ list_url }}">Cancel</a>
+        </div>
+    </form>
+    <script>
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = $(this).serializeArray();
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript" src="{% static 'js/close_notification.js' %}"></script>
+{% endblock %}

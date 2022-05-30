@@ -1,14 +1,26 @@
 {% extends 'form.html' %}
 {% block form %}
-        <div class="field">
-            <label class="label is-medium">{{ form.list_of_products.label }}</label>
-            <div class="select is-multiple">
-                {{ form.list_of_products }}
-            </div>
-            <a class="button" href="{% url 'nynet:create_inventory' %}">
+    <div class="field">
+        <label class="label is-medium">{{ form.list_of_products.label }}</label>
+        <div class="select is-multiple">
+            {{ form.list_of_products }}
+        </div>
+        <a class="button" href="{% url 'nynet:create_inventory' %}">
                 <span class="icon is-small">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-            </a>
+        </a>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.customer.label }}</label>
+        <div class="select">
+            {{ form.customer }}
+
         </div>
+        <a class="button" href="{% url 'nynet:create_customer' %}">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+        </a>
+    </div>
 {% endblock %}

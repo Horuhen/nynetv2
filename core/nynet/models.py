@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import model_to_dict
 
 
 class Update(models.Model):
@@ -43,10 +44,31 @@ class Inventory(Update):
         db_table = 'inventory'
 
 
+class Customer(Update):
+    first_name = models.CharField(max_length=50, verbose_name='First name')
+    last_name = models.CharField(max_length=50, verbose_name='Last name')
+    dni = models.PositiveIntegerField(verbose_name='Dni', unique=True)
+    address = models.CharField(max_length=100, verbose_name='Address')
+    email = models.EmailField(verbose_name='Email')
+    amount_invoices = models.PositiveIntegerField(verbose_name='Amount of invoices', default=0)
+    
+    def __str__(self):
+        return f"{self.dni}"
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'
+        db_table = 'customer'
+
+
 class Invoice(models.Model):
     list_of_products = models.ManyToManyField(Inventory, verbose_name='Products')
     # employee = models.OneToOneField(Employee, on_delete=models.DO_NOTHING)
-    # customer = models.OneToOneField(Customer, on_delete=models.DO_NOTHING)
+    customer = models.OneToOneField(Customer, on_delete=models.DO_NOTHING)
     date_creation = models.DateTimeField(auto_now=True)
 
     class Meta:

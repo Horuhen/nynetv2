@@ -1,19 +1,19 @@
 function message_error(obj) {
-    var html ='';
+    var html = ''
+    if (typeof (obj) === 'object') {
 
-    if(typeof (obj)==='object'){
-        html = '<ul style="text-align: left}">';
-        $.each(obj, function(key,value){
-            html += '<li>'+ key + ': '+ value+'</li>';
+        html += '<ul style="text-align: left">'
+        $.each(obj, function (key, value) {
+            html += '<li>' + key + ': ' + value + '</li>';
         });
-        html+='</ul>'
+        html += '</ul>';
     }
     else{
-        html = '<p>'+obj+'</p>';
+        html+='<p>'+obj+'</p>';
     }
     Swal.fire({
-        title:'error',
-        html:html,
+        title: 'ERROR',
+        html: html,
         icon: 'error'
-    })
+    });
 }

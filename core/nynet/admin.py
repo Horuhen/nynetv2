@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.nynet.models import Product, Invoice, Inventory
+from core.nynet.models import Product, Invoice, Inventory, Customer
 
 
 @admin.register(Product)
@@ -17,3 +17,9 @@ class InvoiceAdmin(admin.ModelAdmin):
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):
     fields = ['product', 'stock', ]
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    fields = ['first_name', 'last_name', 'dni', 'address', 'email', 'amount_invoices', ]
+

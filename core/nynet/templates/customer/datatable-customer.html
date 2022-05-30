@@ -1,0 +1,21 @@
+{% extends 'datatable-ajax.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'customer/js/list.js' %}"></script>
+{% endblock %}
+
+
+{% block thead %}
+    <th class="has-text-white">Id</th>
+    <th class="has-text-white"><abbr title="First name">FName</abbr></th>
+    <th class="has-text-white"><abbr title="Last name">LName</abbr></th>
+    <th class="has-text-white">Dni</th>
+    <th class="has-text-white"><abbr title="Address">Add</abbr></th>
+    <th class="has-text-white">Email</th>
+    <th class="has-text-white"><abbr title="Amount of invoices">AOI</abbr></th>
+
+{% endblock %}
+
+{% block tbody %}
+
+{% endblock %}

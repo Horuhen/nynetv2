@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block head %}
-    <script src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-{% endblock %}
 {% block title %}
     {{ title }}
 {% endblock %}
@@ -33,7 +29,10 @@
 
         {% endblock %}
         <div class="control">
-            <button type="submit" class="button is-primary" id="btnSubmit">Create</button>
+            <button type="submit" class="button is-primary" id="btnSubmit">Send</button>
+        </div>
+        <div class="control">
+            <a class="button is-info" href="{{ list_url }}">Cancel</a>
         </div>
     </form>
 

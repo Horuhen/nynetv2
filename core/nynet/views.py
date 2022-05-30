@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, resolve, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm
-from core.nynet.models import Product, Invoice, Inventory
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm, CustomerForm
+from core.nynet.models import Product, Invoice, Inventory, Customer
 
 
 def home_view(request):
@@ -144,6 +145,19 @@ class InvoiceUpdateView(UpdateView):
         return context
 
 
+class InvoiceDeleteView(DeleteView):
+    model = Invoice
+    template_name = 'delete.html'
+    success_url = reverse_lazy('nynet:datable_invoice')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete invoice'
+        context['name'] = 'invoice'
+        context['list_url'] = reverse_lazy('nynet:datable_invoice')
+        return context
+
+
 # Inventory
 
 class InventoryDatatableView(ListView):
@@ -175,4 +189,158 @@ class InventoryCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create inventory'
+        return context
+
+
+class InventoryUpdateView(UpdateView):
+    model = Inventory
+    form_class = InventoryForm
+    template_name = 'inventory/create-inventory.html'
+    success_url = reverse_lazy('nynet:datable_inventory')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update invoice'
+        return context
+
+
+class InventoryDeleteView(DeleteView):
+    model = Inventory
+    template_name = 'inventory/create-inventory.html'
+    success_url = reverse_lazy('nynet:datable_inventory')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete inventory'
+        context['name'] = 'inventory'
+        context['list_url'] = reverse_lazy('nynet:datable_invoice')
+        return context
+
+
+# Customer
+
+class CustomerDatatableView(ListView):
+    model = Customer
+    template_name = 'customer/datatable-customer.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Customer.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Datatable of customer'
+        context['name'] = 'customer'
+        context['create_url'] = reverse_lazy('nynet:create_customer')
+        context['action'] = 'searchdata'
+        return context
+
+
+class CustomerCreateView(CreateView):
+    model = Customer
+    form_class = CustomerForm
+    template_name = 'customer/create-customer.html'
+    success_url = reverse_lazy('nynet:datable_customer')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+
+        try:
+            action = request.POST['action']
+            print(action + " xd")
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create customer'
+        context['list_url'] = reverse_lazy('nynet:datable_customer')
+        context['action'] = 'add'
+        return context
+
+
+class CustomerUpdateView(UpdateView):
+    model = Customer
+    form_class = CustomerForm
+    template_name = 'customer/create-customer.html'
+    success_url = reverse_lazy('nynet:datable_customer')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            print(action + " xd")
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update customer'
+        context['list_url'] = reverse_lazy('nynet:datable_customer')
+        context['action'] = 'edit'
+        return context
+
+
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'customer/delete_customer.html'
+    success_url = reverse_lazy('nynet:datable_customer')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete customer'
+        context['name'] = 'customer'
+        context['list_url'] = reverse_lazy('nynet:datable_customer')
         return context

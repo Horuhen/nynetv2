@@ -5,6 +5,11 @@
         <div class="select">
             {{ form.product }}
         </div>
+        <a class="button" href="{% url 'nynet:create_product' %}">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+        </a>
     </div>
     <div class="field">
         <label class="label is-medium">{{ form.stock.label }}</label>

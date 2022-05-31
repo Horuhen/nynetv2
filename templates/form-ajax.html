@@ -6,10 +6,12 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="." enctype="multipart/form-data" id="ajax">
+    <form method="post" action="." enctype="multipart/form-data">
 
         {{ crsf_token }}
+
         <input type="hidden" name="action" value="{{ action }}">
+
         {% if form.errors %}
             <div class="notification is-danger is-light">
                 <p class="is-size-4"><i class="fa-solid fa-triangle-exclamation"></i> Error</p>
@@ -28,13 +30,39 @@
         {% block form %}
 
         {% endblock %}
+
+
         <div class="control">
             <button type="submit" class="button is-primary" id="btnSubmit">Send</button>
 
             <a class="button is-info" href="{{ list_url }}">Cancel</a>
         </div>
     </form>
+    <script>
 
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = $(this).serializeArray();
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).done(function (data) {
+                if (!data.hasOwnProperty('error')) {
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+
+            });
+
+        });
+    </script>
 
 {% endblock %}
 

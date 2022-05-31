@@ -33,6 +33,16 @@
                 {% elif user.role == 2 %}
                     <a class="navbar-item" href="{% url 'nynet:create_invoice' %}"> Sell </a>
                 {% endif %}
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"> Datatables </a>
+
+                    <div class="navbar-dropdown">
+                        <a href="{% url 'nynet:datable_product' %}" class="navbar-item"> Product </a>
+                        <a href="{% url 'nynet:datable_invoice' %}" class="navbar-item"> Invoice </a>
+                        <a href="{% url 'nynet:datable_inventory' %}" class="navbar-item"> Inventory </a>
+                        <a href="{% url 'nynet:datable_customer' %}" class="navbar-item"> Customer </a>
+                    </div>
+                </div>
             {% endif %}
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"> More </a>

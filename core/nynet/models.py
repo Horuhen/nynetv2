@@ -51,7 +51,7 @@ class Customer(Update):
     address = models.CharField(max_length=100, verbose_name='Address')
     email = models.EmailField(verbose_name='Email')
     amount_invoices = models.PositiveIntegerField(verbose_name='Amount of invoices', default=0)
-    
+
     def __str__(self):
         return f"{self.dni}"
 
@@ -70,6 +70,14 @@ class Invoice(models.Model):
     # employee = models.OneToOneField(Employee, on_delete=models.DO_NOTHING)
     customer = models.OneToOneField(Customer, on_delete=models.DO_NOTHING)
     date_creation = models.DateTimeField(auto_now=True)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        print(item)
+        return item
+
+    def __str__(self):
+        return f"{self.id} {self.date_creation}"
 
     class Meta:
         verbose_name = 'Invoice'

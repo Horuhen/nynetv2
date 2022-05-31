@@ -269,7 +269,6 @@ class CustomerCreateView(CreateView):
 
         try:
             action = request.POST['action']
-            print(action + " xd")
             if action == 'add':
                 form = self.get_form()
                 data = form.save()
@@ -322,7 +321,7 @@ class CustomerUpdateView(UpdateView):
 
 class CustomerDeleteView(DeleteView):
     model = Customer
-    template_name = 'customer/delete_customer.html'
+    template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_customer')
 
     @method_decorator(login_required)

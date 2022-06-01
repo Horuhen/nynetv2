@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Apps
     'core.nynet.apps.CoreConfig',
     'core.login.apps.LoginConfig',
+    'core.user.apps.UserConfig',
     # Extras
     'django.contrib.humanize',
     'widget_tweaks',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -132,3 +134,5 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 LOGIN_URL = 'login'
+
+AUTH_USER_MODEL = 'user.User'

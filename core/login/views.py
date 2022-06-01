@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
-from config.settings import LOGIN_REDIRECT_URL
+from django.conf import settings
 
 
 class LoginFormView(LoginView):
@@ -8,7 +8,7 @@ class LoginFormView(LoginView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect(LOGIN_REDIRECT_URL)
+            return redirect(settings.LOGIN_REDIRECT_URL)
 
         return super().dispatch(request, *args, **kwargs)
 

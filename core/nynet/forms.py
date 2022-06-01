@@ -34,7 +34,8 @@ class ProductForm(ModelForm):
             )
 
         }
-        
+        exclude = ['user_updated', 'user_creation']
+
     def save(self, commit=True):
         data = {}
         form = super()
@@ -52,7 +53,8 @@ class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
         fields = '__all__'
-    
+        exclude = ['user_updated', 'user_creation']
+
     def save(self, commit=True):
         data = {}
         form = super()
@@ -77,6 +79,8 @@ class InventoryForm(ModelForm):
                 }
             )
         }
+        exclude = ['user_updated', 'user_creation']
+
     def save(self, commit=True):
         data = {}
         form = super()
@@ -134,6 +138,7 @@ class CustomerForm(ModelForm):
                 }
             ),
         }
+        exclude = ['user_updated', 'user_creation']
 
     def save(self, commit=True):
         data = {}

@@ -1,8 +1,7 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
@@ -18,11 +17,10 @@ def home_view(request):
 
 # Product
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'product/list-product.html'
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
 
@@ -34,14 +32,13 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDatatableView(ListView):
+class ProductDatatableView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'product/datatable-product.html'
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -55,7 +52,7 @@ class ProductDatatableView(ListView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of products'
@@ -66,13 +63,12 @@ class ProductDatatableView(ListView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/create-product.html'
     success_url = reverse_lazy('nynet:product_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
 
@@ -97,13 +93,12 @@ class ProductCreateView(CreateView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/create-product.html'
     success_url = reverse_lazy('nynet:product_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -129,12 +124,11 @@ class ProductUpdateView(UpdateView):
         return context
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:product_list')
-    
-    @method_decorator(login_required)
+
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -146,7 +140,7 @@ class ProductDeleteView(DeleteView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Delete product'
@@ -156,14 +150,13 @@ class ProductDeleteView(DeleteView):
 
 
 # Invoice
-class InvoiceDatatableView(ListView):
+class InvoiceDatatableView(LoginRequiredMixin, ListView):
     model = Invoice
     template_name = 'invoice/datatable-invoice.html'
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -177,7 +170,7 @@ class InvoiceDatatableView(ListView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of invoices'
@@ -188,16 +181,15 @@ class InvoiceDatatableView(ListView):
         return context
 
 
-class InvoiceCreateView(CreateView):
+class InvoiceCreateView(LoginRequiredMixin, CreateView):
     model = Invoice
     form_class = InvoiceForm
     template_name = 'invoice/create-invoice.html'
     success_url = reverse_lazy('nynet:datable_invoice')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -210,7 +202,7 @@ class InvoiceCreateView(CreateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
@@ -219,13 +211,12 @@ class InvoiceCreateView(CreateView):
         return context
 
 
-class InvoiceUpdateView(UpdateView):
+class InvoiceUpdateView(LoginRequiredMixin, UpdateView):
     model = Invoice
     form_class = InvoiceForm
     template_name = 'invoice/create-invoice.html'
     success_url = reverse_lazy('nynet:datable_invoice')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -251,12 +242,11 @@ class InvoiceUpdateView(UpdateView):
         return context
 
 
-class InvoiceDeleteView(DeleteView):
+class InvoiceDeleteView(LoginRequiredMixin, DeleteView):
     model = Invoice
     template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_invoice')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -279,14 +269,13 @@ class InvoiceDeleteView(DeleteView):
 
 # Inventory
 
-class InventoryDatatableView(ListView):
+class InventoryDatatableView(LoginRequiredMixin, ListView):
     model = Inventory
     template_name = 'inventory/datatable-inventory.html'
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -300,7 +289,7 @@ class InventoryDatatableView(ListView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of inventory'
@@ -310,16 +299,15 @@ class InventoryDatatableView(ListView):
         return context
 
 
-class InventoryCreateView(CreateView):
+class InventoryCreateView(LoginRequiredMixin, CreateView):
     model = Inventory
     form_class = InventoryForm
     template_name = 'inventory/create-inventory.html'
     success_url = reverse_lazy('nynet:datable_inventory')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -332,7 +320,7 @@ class InventoryCreateView(CreateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create inventory'
@@ -341,13 +329,12 @@ class InventoryCreateView(CreateView):
         return context
 
 
-class InventoryUpdateView(UpdateView):
+class InventoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Inventory
     form_class = InventoryForm
     template_name = 'inventory/create-inventory.html'
     success_url = reverse_lazy('nynet:datable_inventory')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -373,12 +360,11 @@ class InventoryUpdateView(UpdateView):
         return context
 
 
-class InventoryDeleteView(DeleteView):
+class InventoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Inventory
     template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_inventory')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -401,11 +387,10 @@ class InventoryDeleteView(DeleteView):
 
 # Customer
 
-class CustomerDatatableView(ListView):
+class CustomerDatatableView(LoginRequiredMixin, ListView):
     model = Customer
     template_name = 'customer/datatable-customer.html'
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
 
@@ -432,13 +417,12 @@ class CustomerDatatableView(ListView):
         return context
 
 
-class CustomerCreateView(CreateView):
+class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer
     form_class = CustomerForm
     template_name = 'customer/create-customer.html'
     success_url = reverse_lazy('nynet:datable_customer')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
 
@@ -464,13 +448,12 @@ class CustomerCreateView(CreateView):
         return context
 
 
-class CustomerUpdateView(UpdateView):
+class CustomerUpdateView(LoginRequiredMixin, UpdateView):
     model = Customer
     form_class = CustomerForm
     template_name = 'customer/create-customer.html'
     success_url = reverse_lazy('nynet:datable_customer')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
@@ -496,12 +479,11 @@ class CustomerUpdateView(UpdateView):
         return context
 
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(LoginRequiredMixin, DeleteView):
     model = Customer
     template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_customer')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)

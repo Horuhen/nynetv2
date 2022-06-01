@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block head %}
+    <script type="application/javascript" src="{% static 'js/modal.js' %}"></script>
+{% endblock %}
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block content %}
     <form method="post" action="." enctype="multipart/form-data">
+
 
         {{ crsf_token }}
 
@@ -38,13 +41,15 @@
             <a class="button is-info" href="{{ list_url }}">Cancel</a>
         </div>
     </form>
+
+
     <script>
 
         $('form').on('submit', function (e) {
             e.preventDefault();
             var parameters = new FormData(this);
 
-            ajax_with_confirm(window.location.pathname,'Create','Are you sure of create this?',parameters,function (){
+            ajax_with_confirm(window.location.pathname, 'Create', 'Are you sure of create this?', parameters, function () {
                 location.href = '{{ list_url }}';
             })
 

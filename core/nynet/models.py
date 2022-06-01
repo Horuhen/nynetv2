@@ -146,17 +146,8 @@ class Invoice(models.Model):
         super(Invoice, self).save()
 
     def toJSON(self):
-        print("1",self)
         item = model_to_dict(self)
-        print("1", item)
-        item['list_of_products'] = ''
-        print("2", item)
-        print(self.list_of_products.all())
-        for i in self.list_of_products.all():
-            print("3", i)
-            item['list_of_products'] += f"{str(i)}, "
-        print("4", item)
-        print(type(item))
+        item['list_of_products'] = ", ".join(str(i) for i in self.list_of_products.all())
         return item
 
     def __str__(self):

@@ -33,10 +33,10 @@ class Product(models.Model):
             return f"{'/media/'}{self.image}"
 
         return '/static/img/product_empty.png'
-    
+
     def toJSON(self):
         item = model_to_dict(self)
-        item['image'] = f"{'/media/'}{self.image}" 
+        item['image'] = f"{'/media/'}{self.image}"
         return item
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -127,8 +127,8 @@ class Customer(models.Model):
 
 class Invoice(models.Model):
     list_of_products = models.ManyToManyField(Inventory, verbose_name='Products')
-    employee = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Employee')
-    customer = models.OneToOneField(Customer, on_delete=models.DO_NOTHING, verbose_name='Customer')
+    employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Employee')
+    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='Customer')
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     date_creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING,
@@ -146,11 +146,17 @@ class Invoice(models.Model):
         super(Invoice, self).save()
 
     def toJSON(self):
+        print("1",self)
         item = model_to_dict(self)
+        print("1", item)
         item['list_of_products'] = ''
+        print("2", item)
+        print(self.list_of_products.all())
         for i in self.list_of_products.all():
+            print("3", i)
             item['list_of_products'] += f"{str(i)}, "
-        print(item)
+        print("4", item)
+        print(type(item))
         return item
 
     def __str__(self):

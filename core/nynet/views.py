@@ -90,11 +90,27 @@ class ProductUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update product'
+        context['list_url'] = reverse_lazy('nynet:product_list')
+        context['action'] = 'edit'
         return context
 
 
@@ -151,10 +167,25 @@ class InvoiceCreateView(CreateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
+        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('nynet:datable_invoice')
         return context
 
 
@@ -166,18 +197,47 @@ class InvoiceUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update invoice'
+        context['list_url'] = reverse_lazy('nynet:datable_invoice')
+        context['action'] = 'edit'
         return context
 
 
 class InvoiceDeleteView(DeleteView):
     model = Invoice
-    template_name = 'delete.html'
+    template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_invoice')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -214,10 +274,25 @@ class InventoryCreateView(CreateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create inventory'
+        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('nynet:datable_inventory')
         return context
 
 
@@ -229,18 +304,47 @@ class InventoryUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update invoice'
+        context['action'] = 'edit'
+        context['list_url'] = reverse_lazy('nynet:datable_inventory')
         return context
 
 
 class InventoryDeleteView(DeleteView):
     model = Inventory
-    template_name = 'inventory/create-inventory.html'
+    template_name = 'delete-ajax.html'
     success_url = reverse_lazy('nynet:datable_inventory')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -330,7 +434,6 @@ class CustomerUpdateView(UpdateView):
         data = {}
         try:
             action = request.POST['action']
-            print(action + " xd")
             if action == 'edit':
                 form = self.get_form()
                 data = form.save()

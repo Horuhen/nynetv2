@@ -5,11 +5,11 @@
         <div class="select">
             {{ form.product }}
         </div>
-        <button class="button js-modal-trigger" data-target="modal-js-example">
+        <a class="button" href="{% url 'nynet:create_product' %}">
                 <span class="icon is-small">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-        </button>
+        </a>
     </div>
     <div class="field">
         <label class="label is-medium">{{ form.stock.label }}</label>
@@ -17,6 +17,4 @@
             {{ form.stock }}
         </div>
     </div>
-
-    {% include 'components/modal.html' %}
 {% endblock %}

@@ -71,11 +71,6 @@ class Invoice(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.DO_NOTHING)
     date_creation = models.DateTimeField(auto_now=True)
 
-    def toJSON(self):
-        item = model_to_dict(self)
-        print(item)
-        return item
-
     def __str__(self):
         return f"{self.id} {self.date_creation}"
 

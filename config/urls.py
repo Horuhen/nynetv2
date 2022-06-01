@@ -1,13 +1,15 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import static
-from . import settings
+
 from core.nynet.views import home_view
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('nynet/', include('core.nynet.urls')),
-    path('', home_view, name='home')
+    path('', home_view, name='home'),
+    path('login/', include('core.login.urls'))
 ]
 
 if settings.DEBUG:

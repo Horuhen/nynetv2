@@ -7,9 +7,8 @@ function message_error(obj) {
             html += '<li>' + key + ': ' + value + '</li>';
         });
         html += '</ul>';
-    }
-    else{
-        html+='<p>'+obj+'</p>';
+    } else {
+        html += '<p>' + obj + '</p>';
     }
     Swal.fire({
         title: 'ERROR',
@@ -17,3 +16,49 @@ function message_error(obj) {
         icon: 'error'
     });
 }
+
+function ajax_with_confirm(url, title, content, parameters,callback) {
+    $.confirm({
+        theme: 'material',
+        title: title,
+        icon: 'fa-solid fa-info',
+        content: content,
+        columnClass: 'medium',
+        typeAnimated: true,
+        cancelButtonClass: 'button',
+        draggable: true,
+        dragWindowBorder: false,
+        buttons: {
+            info: {
+                text: 'Yes',
+                btnClass: 'button is-primary',
+                action: function () {
+                    $.ajax({
+                        url: url,// window.location.pathname
+                        type: 'POST',
+                        data: parameters,
+                        dataType: 'json'
+                    }).done(function (data) {
+                        if (!data.hasOwnProperty('error')) {
+                            callback();
+                            return false;
+                        }
+                        message_error(data.error);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ': ' + errorThrown);
+                    }).always(function (data) {
+
+                    });
+                }
+            },
+            danger: {
+                text: 'No',
+                btnClass: 'button is-danger',
+                action: function () {
+
+                }
+            }
+        }
+
+    })
+};

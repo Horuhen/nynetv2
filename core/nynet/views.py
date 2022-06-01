@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy, resolve, reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
+
 from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm, CustomerForm
 from core.nynet.models import Product, Invoice, Inventory, Customer
 

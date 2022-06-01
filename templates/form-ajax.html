@@ -44,22 +44,9 @@
             e.preventDefault();
             var parameters = $(this).serializeArray();
 
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: parameters,
-                dataType: 'json'
-            }).done(function (data) {
-                if (!data.hasOwnProperty('error')) {
-                    location.href = '{{ list_url }}';
-                    return false;
-                }
-                message_error(data.error);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert(textStatus + ': ' + errorThrown);
-            }).always(function (data) {
-
-            });
+            ajax_with_confirm(window.location.pathname,'Create','Are you sure of create this?',parameters,function (){
+                location.href = '{{ list_url }}';
+            })
 
         });
     </script>

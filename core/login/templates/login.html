@@ -20,25 +20,21 @@
     <div class="hero-body has-text-centered">
         <div class="login">
             <a href="{% url 'home' %}">
-            <figure class="image is-96x9">
-                <img src="{% static 'img/NYnet-Logo.svg' %}" alt="xd"/>
-            </figure>
+                <figure class="image is-96x9">
+                    <img src="{% static 'img/NYnet-Logo.svg' %}" alt="xd"/>
+                </figure>
             </a>
             <form action="." method="post">
                 <input type="hidden" name="next" value="{{ next }}">
                 {% csrf_token %}
 
-                {% if form.errors %}
+                {% if form.non_field_errors %}
                     <div class="notification is-danger is-light">
                         <p class="is-size-4"><i class="fa-solid fa-triangle-exclamation"></i> Error</p>
                         <button class="delete"></button>
-                        <ul>
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
                 {% endif %}
                 <div class="field">
@@ -80,6 +76,7 @@
         </div>
     </div>
 </section>
+<script src="{% static 'js/close_notification.js' %}"></script>
 </body>
 
 </html>

@@ -29,7 +29,8 @@
 
             $('form').on('submit', function (e) {
                 e.preventDefault();
-                var parameters = $(this).serializeArray();
+                {#var parameters = $(this).serializeArray();#}
+                var parameters = new FormData(this);
 
                 ajax_with_confirm(window.location.pathname,'Delete','Are you sure of delete this?',parameters,function (){
                 location.href = '{{ list_url }}';

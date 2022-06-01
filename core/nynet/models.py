@@ -37,7 +37,6 @@ class Product(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['image'] = f"{'/media/'}{self.image}" 
-        print(item)
         return item
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -151,6 +150,7 @@ class Invoice(models.Model):
         item['list_of_products'] = ''
         for i in self.list_of_products.all():
             item['list_of_products'] += f"{str(i)}, "
+        print(item)
         return item
 
     def __str__(self):

@@ -41,11 +41,26 @@ class ProductDatatableView(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Product.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of products'
         context['name'] = 'products'
+        context['action'] = 'searchdata'
         context['create_url'] = reverse_lazy('nynet:create_product')
         context['update_url'] = reverse_lazy('nynet:update_product')
         return context
@@ -148,12 +163,27 @@ class InvoiceDatatableView(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Invoice.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of invoices'
         context['name'] = 'invoices'
         context['create_url'] = reverse_lazy('nynet:create_invoice')
+        context['action'] = 'searchdata'
         context['update_url'] = 'nynet:update_invoice'
         return context
 
@@ -256,11 +286,26 @@ class InventoryDatatableView(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, args, **kwargs)
-
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Inventory.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'No action sent'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Datatable of inventory'
         context['name'] = 'inventory'
+        context['action'] = 'searchdata'
         context['create_url'] = reverse_lazy('nynet:create_inventory')
         return context
 

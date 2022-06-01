@@ -1,4 +1,8 @@
-{% extends 'datatable.html' %}
+{% extends 'datatable-ajax.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'invoice/js/list.js' %}"></script>
+{% endblock %}
 
 {% block thead %}
     <th class="has-text-white">Id</th>
@@ -9,9 +13,6 @@
 {% endblock %}
 
 {% block tbody %}
-    <td>{{ object.id }}</td>
-    <td>{{ object.list_of_products }}</td>
-    <td>{{ object.employee }}</td>
-    <td>{{ object.customer }}</td>
+
 
 {% endblock %}

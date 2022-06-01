@@ -33,6 +33,12 @@ class Product(models.Model):
             return f"{'/media/'}{self.image}"
 
         return '/static/img/product_empty.png'
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['image'] = f"{'/media/'}{self.image}" 
+        print(item)
+        return item
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         user = get_current_user()
@@ -64,6 +70,10 @@ class Inventory(models.Model):
 
     def __str__(self):
         return f"{self.product}"
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         user = get_current_user()
@@ -135,6 +145,13 @@ class Invoice(models.Model):
             else:
                 self.user_updated = user
         super(Invoice, self).save()
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['list_of_products'] = ''
+        for i in self.list_of_products.all():
+            item['list_of_products'] += f"{str(i)}, "
+        return item
 
     def __str__(self):
         return f"{self.id} {self.date_creation}"

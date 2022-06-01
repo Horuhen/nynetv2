@@ -1,4 +1,9 @@
-{% extends 'datatable.html' %}
+{% extends 'datatable-ajax.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'product/js/humanize.min.js' %}"></script>
+    <script src="{% static 'product/js/list.js' %}"></script>
+{% endblock %}
 {% load humanize %}
 
 {% block thead %}
@@ -10,14 +15,5 @@
 {% endblock %}
 
 {% block tbody %}
-            <td>{{ object.id }}</td>
-            <td>{{ object.name }}</td>
-            <td>{{ object.description|truncatechars:10 }}</td>
-            <td>
-                <figure class="image is-24x24">
-                    <img src="{{ object.image.url }}" alt="Image"/>
-                </figure>
-            </td>
-            <td>$ {{ object.value | intcomma }}</td>
 
 {% endblock %}

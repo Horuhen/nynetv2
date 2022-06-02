@@ -9,6 +9,8 @@ from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm, CustomerFo
 from core.nynet.models import Product, Invoice, Inventory, Customer
 
 import json
+
+
 def home_view(request):
     context = {
     }
@@ -44,11 +46,7 @@ class ProductDatatableView(LoginRequiredMixin, ListView):
         try:
             action = request.POST['action']
             if action == 'searchdata':
-                print(action)
-                data = []
-                for i in Product.objects.all():
-                    data.append(i.toJSON())
-                print(data)
+                data = [i.toJSON() for i in Product.objects.all()]
             else:
                 data['error'] = 'No action sent'
         except Exception as e:
@@ -75,7 +73,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().dispatch(request, args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        data = {}
+        data = dict()
         try:
             action = request.POST['action']
             if action == 'add':

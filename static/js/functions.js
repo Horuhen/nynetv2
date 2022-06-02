@@ -17,7 +17,7 @@ function message_error(obj) {
     });
 }
 
-function ajax_with_confirm(url, title, content, parameters,callback) {
+function ajax_with_confirm(url, title, content, parameters, callback) {
     $.confirm({
         theme: 'material',
         title: title,
@@ -81,7 +81,7 @@ function alert_action(title, content, callback) {
                 text: 'Yes',
                 btnClass: 'button is-primary',
                 action: function () {
-                   callback();
+                    callback();
                 }
             },
             danger: {

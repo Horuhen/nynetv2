@@ -1,3 +1,4 @@
+
 $(function () {
     $('#table').DataTable({
         responsive: true,
@@ -17,7 +18,11 @@ $(function () {
             {"data": "list_of_products"},
             {"data": "employee"},
             {"data": "customer"},
-            {"data": "customer"},// no borrar este duplicado
+            {"data": "date_joined"},
+            {"data": "subtotal"},
+            {"data": "iva"},
+            {"data": "total"},
+            {"data": "total"},// no borrar este duplicado
         ],
         columnDefs: [
             {
@@ -25,9 +30,7 @@ $(function () {
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    var buttons = '<a href="/nynet/invoices/edit/' + row.id + '/" class="has-text-success"><i class="fa-solid fa-pen-to-square"></i>Edit</a>';
-                    buttons += '<a href="/nynet/invoices/delete/' + row.id + '/" class="has-text-danger"><i class="fa-solid fa-trash"></i>Delete</a>'
-                    return buttons
+                    return '<a href="/nynet/invoices/delete/' + row.id + '/" class="has-text-danger"><i class="fa-solid fa-trash"></i>Delete</a>'
                 }
             }
         ],

@@ -78,7 +78,8 @@ class InvoiceForm(ModelForm):
             'date_joined': DateTimeInput(
                 attrs={
                     'type': 'date',
-                    'class': 'dateBulma'
+                    'name': 'date_joined',
+
                 }
             ),
         }

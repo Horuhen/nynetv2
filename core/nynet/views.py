@@ -8,7 +8,7 @@ from django.views.generic.list import ListView
 from core.nynet.forms import ProductForm, InvoiceForm, InventoryForm, CustomerForm
 from core.nynet.models import Product, Invoice, Inventory, Customer
 
-
+import json
 def home_view(request):
     context = {
     }
@@ -44,9 +44,11 @@ class ProductDatatableView(LoginRequiredMixin, ListView):
         try:
             action = request.POST['action']
             if action == 'searchdata':
+                print(action)
                 data = []
                 for i in Product.objects.all():
                     data.append(i.toJSON())
+                print(data)
             else:
                 data['error'] = 'No action sent'
         except Exception as e:
@@ -201,6 +203,21 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
                     item = i.toJSON()
                     item['value'] = i.name
                     data.append(item)
+            elif action == 'add':
+                vents = json.loads(request.POST['vents'])
+                print(vents)
+                invoice = Invoice()
+                invoice.date_joined = vents['date_joined']
+                invoice.customer_id = vents['customer']
+                invoice.employee_id = vents['employee']
+                invoice.subtotal = float(vents['subtotal'])
+                invoice.iva = float(vents['iva'])
+                invoice.total = float(vents['total'])
+
+                for i in vents['products']:
+                    invoice.list_of_products_id = i['id']
+
+                invoice.save()
             else:
                 data['error'] = 'No action sent'
         except Exception as e:
@@ -210,7 +227,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
-        context['action'] = 'search_products'
+        context['action'] = 'add'
         context['list_url'] = reverse_lazy('nynet:datable_invoice')
         return context
 

@@ -118,11 +118,11 @@ $(function () {
         vents.calculate_invoice();
     });
     $('.btnRemoveAll').on('click', function () {
-
+        if (vents.items.products.length === 0) return false;
         alert_action('Notification', 'Are you sure of delete all items?', function () {
             vents.items.products = [];
             vents.list();
-        })
+        });
 
     });
     $('#table tbody')
@@ -140,6 +140,32 @@ $(function () {
             $('td:eq(4)', tblProducts.row(tr.row).node()).html('$ ' + Humanize.intcomma(vents.items.products[tr.row].subtotal));
 
         });
+
+    $('.btnCleanSearch').on('click',function () {
+        $('input[name="search"]').val('').focus();
+    })
+
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        if (vents.items.products.length === 0) {
+            message_error('You need to select at least one product to make a purchase');
+            return false;
+        }
+
+        vents.items.date_joined = $('input[name="date_joined"]').val();
+
+        vents.items.employee = $('select[name="employee"]').val();
+        vents.items.customer = $('select[name="customer"]').val();
+
+        var parameters = new FormData(this);
+        parameters.append('action', $('input[name="action"]').val());
+        parameters.append('vents', JSON.stringify(vents.items));
+
+        ajax_with_confirm(window.location.pathname, 'Create', 'Are you sure of create this?', parameters, function () {
+            location.href = '/nynet/invoices/datatable/';
+        })
+
+    });
 
 
 })

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput, NumberInput, EmailInput
+from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput, NumberInput, EmailInput, Select,DateTimeInput
 from .models import Product, Invoice, Inventory, Customer
 
 
@@ -53,6 +53,31 @@ class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
         fields = '__all__'
+        widgets = {
+            'subtotal': NumberInput(
+                attrs={
+                    'class': 'input',
+                    'disabled': ''
+                }
+            ),
+            'total': NumberInput(
+                attrs={
+                    'class': 'input',
+                    'disabled': ''
+                }
+            ),
+            'iva': NumberInput(
+                attrs={
+                    'class': 'input',
+                }
+            ),
+            'date_joined': DateTimeInput(
+                attrs={
+                    'type': 'date',
+                    'class': 'dateBulma'
+                }
+            ),
+        }
         exclude = ['user_updated', 'user_creation']
 
     def save(self, commit=True):

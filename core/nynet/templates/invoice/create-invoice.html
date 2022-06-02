@@ -1,33 +1,210 @@
-{% extends 'form-ajax.html' %}
-{% block form %}
-    <div class="field">
-        <label class="label is-medium">{{ form.list_of_products.label }}</label>
-        <div class="select is-multiple">
-            {{ form.list_of_products }}
-        </div>
-        <a class="button" href="{% url 'nynet:create_inventory' %}">
-                <span class="icon is-small">
-                    <i class="fa-solid fa-plus"></i>
-                </span>
-        </a>
-    </div>
-    <div class="field">
-        <label class="label is-medium">{{ form.customer.label }}</label>
-        <div class="select">
-            {{ form.customer }}
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'lib/jquery-ui-1.13.1.custom/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/jquery-ui-1.13.1.custom/jquery-ui.min.css' %}">
 
-        </div>
-        <a class="button" href="{% url 'nynet:create_customer' %}">
-                <span class="icon is-small">
-                    <i class="fa-solid fa-plus"></i>
-                </span>
-        </a>
-    </div>
-    <div class="field">
-        <label class="label is-medium">{{ form.employee.label }}</label>
-        <div class="select">
-            {{ form.employee }}
+    <script type="application/javascript" src="{% static 'js/datatable.js' %}"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
 
-        </div>
-    </div>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+    <script src="{% static 'invoice/js/form.js' %}"></script>
 {% endblock %}
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+
+
+        {{ crsf_token }}
+
+        <input type="hidden" name="action" value="{{ action }}">
+
+        {% if form.errors %}
+            <div class="notification is-danger is-light">
+                <p class="is-size-4"><i class="fa-solid fa-triangle-exclamation"></i> Error</p>
+                <button class="delete"></button>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+
+                    {% endfor %}
+
+                </ul>
+            </div>
+        {% endif %}
+        <div class="columns">
+            <div class="column is-three-quarters">
+                <div class="card ">
+                    <div class="card-header has-background-black-ter">
+                        <div class="card-header-title">
+                            <p class="title is-4 has-text-white">Details of product</p>
+                        </div>
+                        <div class="card-header-icon">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                    </div>
+                    <div class="card-content has-background-grey-darker">
+                        <div class="field">
+                            <label class="label is-medium">Search Product</label>
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Enter a product description"
+                                           name="search">
+                                </div>
+                                <div class="control">
+                                    <a class="button is-danger">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="has-text-white">
+                            <table id="table" class="table is-striped is-fullwidth has-text-white has-background-dark">
+                                <thead>
+                                <tr>
+                                    <th class="has-text-white"><abbr title="Delete">Del</abbr></th>
+                                    <th class="has-text-white"><abbr title="Product">Pro</abbr></th>
+                                    <th class="has-text-white"><abbr title="Sales price">SP</abbr></th>
+                                    <th class="has-text-white"><abbr title="Amount">Amo</abbr></th>
+                                    <th class="has-text-white"><abbr title="Subtotal">Sub</abbr></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card ">
+                    <div class="card-header has-background-black-ter">
+                        <div class="card-header-title">
+                            <p class="title is-4 has-text-white">Details of Sale</p>
+                        </div>
+                        <div class="card-header-icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                    </div>
+                    <div class="card-content has-background-grey-darker">
+                        <div class="field">
+                            <label class="label">{{ form.date_joined.label }}</label>
+                            <div class="control">
+                                {{ form.date_joined }}
+                            </div>
+                            <div class="field">
+                                <label class="label is-medium">{{ form.customer.label }}</label>
+                                <div class="select">
+                                    {{ form.customer }}
+
+                                </div>
+                                <a class="button" href="{% url 'nynet:create_customer' %}">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                </a>
+                            </div>
+                            <div class="field">
+                                <label class="label is-medium">{{ form.subtotal.label }}</label>
+                                <div class="control has-icons-left">
+                                    {{ form.subtotal }}
+                                    <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-medium">{{ form.iva.label }}</label>
+                                <div class="control has-icons-left">
+                                    {{ form.iva }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-percent"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-medium">{{ form.total.label }}</label>
+                                <div class="control has-icons-left">
+                                    {{ form.total }}
+                                    <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary" id="btnSubmit">Send</button>
+
+            <a class="button is-info" href="{{ list_url }}">Cancel</a>
+        </div>
+    </form>
+
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.list_of_products.label }}</label>#}
+    {#        <div class="select is-multiple">#}
+    {#            {{ form.list_of_products }}#}
+    {#        </div>#}
+    {#        <a class="button" href="{% url 'nynet:create_inventory' %}">#}
+    {#                <span class="icon is-small">#}
+    {#                    <i class="fa-solid fa-plus"></i>#}
+    {#                </span>#}
+    {#        </a>#}
+    {#    </div>#}
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.customer.label }}</label>#}
+    {#        <div class="select">#}
+    {#            {{ form.customer }}#}
+    {##}
+    {#        </div>#}
+    {#        <a class="button" href="{% url 'nynet:create_customer' %}">#}
+    {#                <span class="icon is-small">#}
+    {#                    <i class="fa-solid fa-plus"></i>#}
+    {#                </span>#}
+    {#        </a>#}
+    {#    </div>#}
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.employee.label }}</label>#}
+    {#        <div class="select">#}
+    {#            {{ form.employee }}#}
+    {##}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.iva.label }}</label>#}
+    {#        <div class="control has-icons-left">#}
+    {#            {{ form.iva }}#}
+    {#            <span class="icon is-small is-left">#}
+    {#                    <i class="fa-solid fa-dollar-sign"></i>#}
+    {#                </span>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.subtotal.label }}</label>#}
+    {#        <div class="control has-icons-left">#}
+    {#            {{ form.subtotal }}#}
+    {#            <span class="icon is-small is-left">#}
+    {#                    <i class="fa-solid fa-dollar-sign"></i>#}
+    {#                </span>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="field">#}
+    {#        <label class="label is-medium">{{ form.total.label }}</label>#}
+    {#        <div class="control has-icons-left">#}
+    {#            {{ form.total }}#}
+    {#            <span class="icon is-small is-left">#}
+    {#                    <i class="fa-solid fa-dollar-sign"></i>#}
+    {#                </span>#}
+    {#        </div>#}
+    {#    </div>#}
+
+{% endblock %}
+

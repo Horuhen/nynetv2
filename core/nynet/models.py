@@ -2,6 +2,7 @@ from crum import get_current_user
 from django.db import models
 from django.forms import model_to_dict
 from django.conf import settings
+from datetime import datetime
 
 
 class Update(models.Model):
@@ -129,6 +130,11 @@ class Invoice(models.Model):
     list_of_products = models.ManyToManyField(Inventory, verbose_name='Products')
     employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Employee')
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='Customer')
+    subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Subtotal')
+    iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Iva')
+    total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Total')
+    date_joined = models.DateTimeField(default=datetime.now, verbose_name='Date of invoice')
+
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     date_creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING,

@@ -1,0 +1,60 @@
+{% extends 'form-ajax.html' %}
+{% block form %}
+    <div class="field">
+        <label class="label is-medium">{{ form.list_of_products.label }}</label>
+        <div class="select is-multiple">
+            {{ form.list_of_products }}
+        </div>
+        <a class="button" href="{% url 'nynet:create_inventory' %}">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+        </a>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.customer.label }}</label>
+        <div class="select">
+            {{ form.customer }}
+
+        </div>
+        <a class="button" href="{% url 'nynet:create_customer' %}">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+        </a>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.employee.label }}</label>
+        <div class="select">
+            {{ form.employee }}
+
+        </div>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.iva.label }}</label>
+        <div class="control has-icons-left">
+            {{ form.iva }}
+            <span class="icon is-small is-left">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.subtotal.label }}</label>
+        <div class="control has-icons-left">
+            {{ form.subtotal }}
+            <span class="icon is-small is-left">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label is-medium">{{ form.total.label }}</label>
+        <div class="control has-icons-left">
+            {{ form.total }}
+            <span class="icon is-small is-left">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                </span>
+        </div>
+    </div>
+{% endblock %}

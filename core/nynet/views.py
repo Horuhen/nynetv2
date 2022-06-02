@@ -194,19 +194,23 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                data = form.save()
+            if action == 'search_products':
+                data = []
+                prods = Product.objects.filter(name__icontains=request.POST['term'])
+                for i in prods:
+                    item = i.toJSON()
+                    item['value'] = i.name
+                    data.append(item)
             else:
                 data['error'] = 'No action sent'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create invoice'
-        context['action'] = 'add'
+        context['action'] = 'search_products'
         context['list_url'] = reverse_lazy('nynet:datable_invoice')
         return context
 

@@ -63,4 +63,35 @@ function ajax_with_confirm(url, title, content, parameters,callback) {
         }
 
     })
-};
+}
+
+function alert_action(title, content, callback) {
+    $.confirm({
+        theme: 'material',
+        title: title,
+        icon: 'fa-solid fa-info',
+        content: content,
+        columnClass: 'medium',
+        typeAnimated: true,
+        cancelButtonClass: 'button',
+        draggable: true,
+        dragWindowBorder: false,
+        buttons: {
+            info: {
+                text: 'Yes',
+                btnClass: 'button is-primary',
+                action: function () {
+                   callback();
+                }
+            },
+            danger: {
+                text: 'No',
+                btnClass: 'button is-danger',
+                action: function () {
+
+                }
+            }
+        }
+
+    })
+}

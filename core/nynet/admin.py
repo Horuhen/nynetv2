@@ -5,7 +5,7 @@ from core.nynet.models import Product, Invoice, Inventory, Customer
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    fields = ['name', 'description', 'image', 'value']
+    fields = ['name', 'description', 'image', 'price']
 
 
 @admin.register(Invoice)

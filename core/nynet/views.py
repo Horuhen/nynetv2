@@ -196,7 +196,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                prods = Product.objects.filter(name__icontains=request.POST['term'])
+                prods = Product.objects.filter(name__icontains=request.POST['term'])[0:10]
                 for i in prods:
                     item = i.toJSON()
                     item['value'] = i.name

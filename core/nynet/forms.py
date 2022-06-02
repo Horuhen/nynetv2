@@ -1,4 +1,5 @@
-from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput, NumberInput, EmailInput, Select,DateTimeInput
+from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput, NumberInput, EmailInput, Select, \
+    DateTimeInput
 from .models import Product, Invoice, Inventory, Customer
 
 
@@ -27,7 +28,7 @@ class ProductForm(ModelForm):
                     'type': 'file',
                 }
             ),
-            'value': NumberInput(
+            'price': NumberInput(
                 attrs={
                     'class': 'input'
                 }
@@ -57,18 +58,21 @@ class InvoiceForm(ModelForm):
             'subtotal': NumberInput(
                 attrs={
                     'class': 'input',
-                    'disabled': ''
+                    'readonly': '',
+                    'name': 'subtotal',
                 }
             ),
             'total': NumberInput(
                 attrs={
                     'class': 'input',
-                    'disabled': ''
+                    'readonly': '',
+                    'name': 'total',
                 }
             ),
             'iva': NumberInput(
                 attrs={
                     'class': 'input',
+                    'name': 'iva',
                 }
             ),
             'date_joined': DateTimeInput(

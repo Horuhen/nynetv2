@@ -21,7 +21,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     description = models.TextField(verbose_name='Description')
     image = models.ImageField(upload_to='products/%Y', verbose_name='Image')
-    value = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Value')
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Value')
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     date_creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING,
@@ -131,7 +131,7 @@ class Invoice(models.Model):
     employee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Employee')
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='Customer')
     subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Subtotal')
-    iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Iva')
+    iva = models.DecimalField(default=0.12, max_digits=9, decimal_places=2, verbose_name='Iva')
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Total')
     date_joined = models.DateTimeField(default=datetime.now, verbose_name='Date of invoice')
 

@@ -8,6 +8,6 @@
     <a href="#">category</a>
     <p class="title is-4">{{ object.name }}</p>
     <p class="has-text-dark has-text-justified">{{ object.description|truncatechars:50 }}</p>
-    <p class="has-text-dark has-text-right">$ {{ object.value | intcomma}}</p>
+    <p class="has-text-dark has-text-right">$ {{ object.price | intcomma}}</p>
 
 {% endblock %}

@@ -17,8 +17,8 @@ $(function () {
             {"data": "name"},
             {"data": "description"},
             {"data": "image"},
-            {"data": "value"},
-            {"data": "value"},// no borrar este duplicado
+            {"data": "price"},
+            {"data": "price"},// no borrar este duplicado
         ],
         columnDefs: [
             {
@@ -47,7 +47,7 @@ $(function () {
                 class: 'text-center',
                 render: function (data, type, row) {
 
-                    return '<td>$   '+ Humanize.intcomma(row.value) +' </td>';
+                    return '<td>$   '+ Humanize.intcomma(row.price) +' </td>';
                 }
             },
             {

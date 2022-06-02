@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
 
+    <script src="{% static 'js/functions.js' %}"></script>
     <script type="application/javascript" src="{% static 'js/datatable.js' %}"></script>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
           integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="{% static 'invoice/js/humanize.min.js' %}"></script>
     <script src="{% static 'invoice/js/form.js' %}"></script>
 {% endblock %}
 
@@ -41,6 +43,7 @@
                 </ul>
             </div>
         {% endif %}
+        <hr>
         <div class="columns">
             <div class="column is-three-quarters">
                 <div class="card ">
@@ -58,7 +61,7 @@
                             <div class="field has-addons">
                                 <div class="control">
                                     <input class="input" type="text" placeholder="Enter a product description"
-                                           name="search">
+                                           name="search" autocomplete="false">
                                 </div>
                                 <div class="control">
                                     <a class="button is-danger">
@@ -67,7 +70,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        <hr>
+                        <button type="button" class="button is-danger btnRemoveAll">Delete all items <i class="fa-solid fa-trash"></i></button>
+                        <hr>
                         <div class="has-text-white">
                             <table id="table" class="table is-striped is-fullwidth has-text-white has-background-dark">
                                 <thead>
@@ -128,6 +133,15 @@
                                 <label class="label is-medium">{{ form.iva.label }}</label>
                                 <div class="control has-icons-left">
                                     {{ form.iva }}
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-percent"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-medium">Calculate IVA</label>
+                                <div class="control has-icons-left">
+                                    <input type="number" readonly class="input" name="ivacalc" value=0.00>
                                     <span class="icon is-small is-left">
                                         <i class="fa-solid fa-percent"></i>
                                     </span>
